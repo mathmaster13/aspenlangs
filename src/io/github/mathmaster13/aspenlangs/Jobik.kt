@@ -16,6 +16,6 @@ object Jobik {
         val sequence = sequence.trim().lowercase()
         val consonants = "([pbtdkg][fsšxh]?|[fsšxh][pbtdkg]?|[mnñwljr])"
         return sequence == "i" || sequence.matches(Regex("[aeiouyáéíóúý]k")) // special cases
-                || (sequence.matches(Regex("($consonants[aeiouyáé]$consonants[aeiouyáéíóúý]$consonants?[\\s]*)+")) && sequence.isNotBlank())
+                || (isValidSequence(sequence, Regex("$consonants[aeiouyáé]$consonants[aeiouyáéíóúý]$consonants?")) && sequence.isNotBlank())
     }
 }

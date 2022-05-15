@@ -6,14 +6,13 @@ typealias Jobík = Jobik
 /**
  * Returns `true` if a word is orthographically and phonotactically valid as specified by `validator`, and `false` otherwise.
  * Multiple words can be separated by whitespace, and this method will only return `true` if all words in `sequence` are valid.
- * Leading and trailing whitespace is ignored (the [String.trim] method is called on `sequence`).
+ * Leading and trailing whitespace should be ignored by users of this function, but this function will not remove them.
  * A sequence containing punctuation marks or other characters that are not part of words returns `false`,
  * as well as an empty sequence or one containing only whitespace.
  */
 @JvmSynthetic
-internal inline fun isValidSequence(sequence: String, validChars: String, validator: (String) -> Boolean): Boolean {
-    val sequence = sequence.trim()
-    if (sequence.contains(Regex("[^$validChars\\s+]")) || sequence.isBlank()) return false
+internal inline fun isValidSequence(sequence: String, validator: (String) -> Boolean): Boolean {
+    if (sequence.isBlank()) return false
 
     // Handle a multiple-word sequence
     val wordArray = sequence.split(Regex("\\s+"))
@@ -26,7 +25,4 @@ internal inline fun isValidSequence(sequence: String, validChars: String, valida
 
 // For simple checks where one regex will do
 @JvmSynthetic
-internal fun isValidSequence(sequence: String, regex: Regex): Boolean {
-    val sequence = sequence.trim()
-    return sequence.matches(regex) && sequence.isNotBlank()
-}
+internal fun isValidSequence(sequence: String, regex: Regex) = isValidSequence(sequence) { it.matches(regex) }

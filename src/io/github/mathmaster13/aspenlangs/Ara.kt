@@ -11,7 +11,11 @@ object Ara {
      */
     // KDoc copied from SumaSisi
     @JvmStatic
-    fun isValidSequence(sequence: String) = isValidSequence(sequence.lowercase(), "pbtdkgmnñńfvszšžxyhwljraeiouäüöø", ::validator)
+    fun isValidSequence(sequence: String): Boolean {
+        val sequence = sequence.trim().lowercase()
+        if (sequence.contains(Regex("[^pbtdkgmnñńfvszšžxyhwljraeiouäüöø\\s]"))) return false
+        return isValidSequence(sequence, ::validator)
+    }
 
     private fun validator(sequence: String): Boolean {
         // There is a prefix, n#n, which breaks normal rules and should be handled first:
@@ -43,11 +47,4 @@ object Ara {
 
         return hasNonzeroArgument
     }
-
-    private fun Char.isNumericVowel() = when (this) {
-        'a', 'e', 'i', 'o', 'u', 'ä', 'ü', 'ö' -> true
-        else -> false
-    }
-
-    private fun Char.isVowel() = isNumericVowel() || this == 'ø'
 }
