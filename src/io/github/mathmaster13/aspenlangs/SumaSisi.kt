@@ -77,24 +77,10 @@ object SumaSisi {
      * A sequence containing punctuation marks, numbers, or other non-letter characters returns `false`,
      * as well as an empty sequence or one containing only whitespace.
      */
+    // Because suma sisi is so small, just one regex will handle everything!
     @JvmStatic
-    fun isValidSequence(sequence: String) = isValidSequence(sequence.lowercase(), "aiupsm", ::validator)
-
-    private fun validator(sequence: String): Boolean {
-        if (!sequence[sequence.length - 1].isVowel()) return false
-
-        val firstCharIsVowel = sequence[0].isVowel()
-
-        // These should be the opposite of the first character
-        for (i in 1 until sequence.length step 2)
-            if (sequence[i].isVowel() == firstCharIsVowel) return false
-
-        // These should be the same as the first character
-        for (i in 2 until sequence.length step 2)
-            if (sequence[i].isVowel() != firstCharIsVowel) return false
-
-        return true
+    fun isValidSequence(sequence: String): Boolean {
+        val sequence = sequence.trim().lowercase()
+        return sequence.matches(Regex("([aiu]?([smp][aiu])*[\\s]*)+")) && sequence.isNotBlank()
     }
-
-    private fun Char.isVowel() = this == 'a' || this == 'i' || this == 'u'
 }
