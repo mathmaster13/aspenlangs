@@ -78,19 +78,9 @@ object SumaSisi {
      * as well as an empty sequence or one containing only whitespace.
      */
     @JvmStatic
-    fun isValidSequence(sequence: String): Boolean {
-        val sequence = sequence.lowercase().trim()
-        if (sequence.contains(Regex("[^aiupsm\\s+]")) || sequence.isBlank()) return false
+    fun isValidSequence(sequence: String) = isValidSequence(sequence.lowercase(), "aiupsm", ::validator)
 
-        // Check for a multiple-word sequence
-        val wordArray = sequence.split(Regex("\\s+"))
-        if (wordArray.isEmpty()) return false
-        if (wordArray.size > 1) {
-            var output = true
-            for (i in wordArray) output = isValidSequence(i) && output
-            return output
-        }
-
+    private fun validator(sequence: String): Boolean {
         if (!sequence[sequence.length - 1].isVowel()) return false
 
         val firstCharIsVowel = sequence[0].isVowel()
