@@ -1,5 +1,8 @@
 package io.github.mathmaster13.aspenlangs
 
+// I don't know why you'd use this, but I'll allow it.
+typealias Jobík = Jobik
+
 /**
  * Returns `true` if a word is orthographically and phonotactically valid as specified by `validator`, and `false` otherwise.
  * Multiple words can be separated by whitespace, and this method will only return `true` if all words in `sequence` are valid.
@@ -19,4 +22,11 @@ internal inline fun isValidSequence(sequence: String, validChars: String, valida
     var output = true
     for (i in wordArray) output = validator(i) && output
     return output
+}
+
+// For simple checks where one regex will do
+@JvmSynthetic
+internal fun isValidSequence(sequence: String, regex: Regex): Boolean {
+    val sequence = sequence.trim()
+    return sequence.matches(regex) && sequence.isNotBlank()
 }

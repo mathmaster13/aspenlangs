@@ -79,8 +79,5 @@ object SumaSisi {
      */
     // Because suma sisi is so small, just one regex will handle everything!
     @JvmStatic
-    fun isValidSequence(sequence: String): Boolean {
-        val sequence = sequence.trim().lowercase()
-        return sequence.matches(Regex("([aiu]?([smp][aiu])*[\\s]*)+")) && sequence.isNotBlank()
-    }
+    fun isValidSequence(sequence: String) = isValidSequence(sequence.lowercase(), Regex("([aiu]?([smp][aiu])*[\\s]*)+"))
 }
