@@ -18,9 +18,9 @@ internal inline fun isValidSequence(sequence: String, validator: (String) -> Boo
     val wordArray = sequence.split(Regex("\\s+"))
     if (wordArray.isEmpty()) return false
 
-    var output = true
-    for (i in wordArray) output = validator(i) && output
-    return output
+    for (i in wordArray)
+        if (!validator(i)) return false
+    return true
 }
 
 // For simple checks where one regex will do
