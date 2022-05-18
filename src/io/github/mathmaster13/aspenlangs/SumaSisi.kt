@@ -18,55 +18,54 @@ object SumaSisi {
     @JvmSynthetic
     fun number(number: ULong): String {
         if (number == 0UL) throw IllegalArgumentException("number cannot be 0")
-        val asBijectiveNonary = toBijectiveNonary(number)
-        var output = if (asBijectiveNonary.length == 1) "sa" else ""
-        for (i in asBijectiveNonary) {
-            output += when (i) {
+        val asBijectiveOctal = toBijectiveOctal(number)
+        var output = if (asBijectiveOctal.length == 1) "sa" else ""
+        asBijectiveOctal.forEach {
+            output += when (it) {
                 '1' -> "pa"
                 '2' -> "pi"
                 '3' -> "pu"
                 '4' -> "ma"
                 '5' -> "mi"
                 '6' -> "mu"
-                '7' -> "sa"
-                '8' -> "si"
-                '9' -> "su"
-                else -> throw AssertionError("A digit other than 1-9 was found. Please report an issue on GitHub with this error message. number: $number")
+                '7' -> "si"
+                '8' -> "su"
+                else -> throw AssertionError("A digit other than 1-8 was found. Please report an issue on GitHub with this error message. number: $number. digit: $it.")
             }
         }
-        return if (asBijectiveNonary.length <= 2) output + "sa" else output
+        return if (asBijectiveOctal.length <= 2) output + "sa" else output
     }
 
     /**
-     * Returns a String containing `number` written in bijective nonary, using the digits 1-9.
+     * Returns a String containing `number` written in bijective octal, using the digits 1-8.
      * An empty String is returned if `number` is 0, in accordance with the definition of bijective bases on [Wikipedia](https://en.wikipedia.org/wiki/Bijective_numeration#Definition).
      */
     @JvmSynthetic
-    fun toBijectiveNonary(number: ULong): String {
+    fun toBijectiveOctal(number: ULong): String {
         // assume no leading zeroes
         if (number == 0UL) return ""
-        val nonaryArray = number.toString(9).let {
+        val octalArray = number.toString(8).let {
             if (!it.contains('0')) return it
             it.toCharArray()
         }
-        var i = nonaryArray.size - 1
+        var i = octalArray.size - 1
         while (i >= 0) {
-            if (nonaryArray[i] != '0') {
+            if (octalArray[i] != '0') {
                 i--
                 continue
             }
             val j = run {
                 var j = i + 1
-                while (nonaryArray[--j] == '0');
+                while (octalArray[--j] == '0');
                 j + 1
             }
             for (k in j..i) {
-                nonaryArray[k - 1] = (nonaryArray[k - 1].digitToInt() - 1).digitToChar()
-                nonaryArray[k] = '9'
+                octalArray[k - 1] = (octalArray[k - 1].digitToInt() - 1).digitToChar()
+                octalArray[k] = '8'
             }
             i = j - 2
         }
-        return String(nonaryArray)
+        return String(octalArray).replace(Regex("^0+"), "")
     }
 
     /**
