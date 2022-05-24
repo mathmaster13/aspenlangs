@@ -69,6 +69,7 @@ object SumaSisi {
         return String(octalArray).replace(leadingZeroes, "")
     }
 
+    @JvmField
     val phonotactics = Regex("[aiu]?([smp][aiu])*")
     /**
      * Returns `true` if a word is orthographically and phonotactically valid in suma sisi, and `false` otherwise.
@@ -77,6 +78,8 @@ object SumaSisi {
      * Leading and trailing whitespace is ignored (the [String.trim] method is called on `sequence`).
      * A sequence containing punctuation marks, numbers, or other non-letter characters returns `false`,
      * as well as an empty sequence or one containing only whitespace.
+     *
+     * @see phonotactics
      */
     // Because suma sisi is so small, just one regex will handle everything!
     @JvmStatic
