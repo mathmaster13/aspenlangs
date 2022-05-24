@@ -1,6 +1,9 @@
 package io.github.mathmaster13.aspenlangs
 
 object Jobik {
+    private val kParticle = Regex("[aeiouyáéíóúý]k")
+    private const val CONSONANTS = "([pbtdkg][fsšxh]?|[fsšxh][pbtdkg]?|[mnñwljr])"
+    val phonotactics = Regex("$consonants[aeiouyáé]$consonants[aeiouyáéíóúý]$consonants?")
     /**
      * Returns `true` if a word is orthographically and phonotactically valid in jobík, and `false` otherwise.
      * Capitalization is ignored.
@@ -15,7 +18,7 @@ object Jobik {
     fun isValidSequence(sequence: String): Boolean {
         val sequence = sequence.trim().lowercase()
         val consonants = "([pbtdkg][fsšxh]?|[fsšxh][pbtdkg]?|[mnñwljr])"
-        return sequence == "i" || sequence.matches(Regex("[aeiouyáéíóúý]k")) // special cases
-                || (isValidSequence(sequence, Regex("$consonants[aeiouyáé]$consonants[aeiouyáéíóúý]$consonants?")) && sequence.isNotBlank())
+        return sequence == "i" || sequence.matches(kParticle) // special cases
+                || (isValidSequence(sequence, phonotactics) && sequence.isNotBlank()) // normal words
     }
 }
