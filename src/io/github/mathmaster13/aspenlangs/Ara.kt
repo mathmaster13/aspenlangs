@@ -1,6 +1,8 @@
 package io.github.mathmaster13.aspenlangs
 
 object Ara {
+    private val invalidChars = Regex("[^pbtdkgmnñńfvszšžxyhwljraeiouäüöø\\s]")
+    
     /**
      * Returns `true` if a word is orthographically and phonotactically valid in ara, and `false` otherwise.
      * Capitalization is ignored.
@@ -13,16 +15,19 @@ object Ara {
     @JvmStatic
     fun isValidSequence(sequence: String): Boolean {
         val sequence = sequence.trim().lowercase()
-        if (sequence.contains(Regex("[^pbtdkgmnñńfvszšžxyhwljraeiouäüöø\\s]"))) return false
+        if (sequence.contains(invalidChars)) return false
         return isValidSequence(sequence, ::validator)
     }
 
+    private val nPrefix = Regex("^n[aeiouäüö]n")
+    private val consonants = Regex("[pbtdkgmnñńfvszšžxyhwljr]{1,2}")
+    private val vowels = Regex("[aeiouäüöø]+")
     private fun validator(sequence: String): Boolean {
         // There is a prefix, n#n, which breaks normal rules and should be handled first:
-        val sequence = if (sequence.contains(Regex("^n[aeiouäüö]n"))) sequence.substring(3) else sequence
+        val sequence = if (sequence.contains(nPrefix)) sequence.substring(3) else sequence
 
-        val vowelList = sequence.split(Regex("[pbtdkgmnñńfvszšžxyhwljr]{1,2}"))
-        val consonantList = sequence.split(Regex("[aeiouäüöø]+"))
+        val vowelList = sequence.split(consonants)
+        val consonantList = sequence.split(vowels)
 
         // If the consonant list does not contain an empty string at the beginning and end,
         // the word does not start/end with a vowel, which is bad.
