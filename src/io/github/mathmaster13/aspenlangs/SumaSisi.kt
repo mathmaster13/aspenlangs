@@ -36,6 +36,7 @@ object SumaSisi {
         return if (asBijectiveOctal.length <= 2) output + "sa" else output
     }
 
+    private val leadingZeroes = Regex("^0+")
     /**
      * Returns a String containing `number` written in bijective octal, using the digits 1-8.
      * An empty String is returned if `number` is 0, in accordance with the definition of bijective bases on [Wikipedia](https://en.wikipedia.org/wiki/Bijective_numeration#Definition).
@@ -65,9 +66,10 @@ object SumaSisi {
             }
             i = j - 2
         }
-        return String(octalArray).replace(Regex("^0+"), "")
+        return String(octalArray).replace(leadingZeroes, "")
     }
 
+    val phonotactics = Regex("[aiu]?([smp][aiu])*")
     /**
      * Returns `true` if a word is orthographically and phonotactically valid in suma sisi, and `false` otherwise.
      * Capitalization is ignored.
@@ -78,5 +80,5 @@ object SumaSisi {
      */
     // Because suma sisi is so small, just one regex will handle everything!
     @JvmStatic
-    fun isValidSequence(sequence: String) = isValidSequence(sequence.trim().lowercase(), Regex("[aiu]?([smp][aiu])*"))
+    fun isValidSequence(sequence: String) = isValidSequence(sequence.trim().lowercase(), phonotactics)
 }
