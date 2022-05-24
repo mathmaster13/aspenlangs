@@ -3,6 +3,7 @@ package io.github.mathmaster13.aspenlangs
 // I don't know why you'd use this, but I'll allow it.
 typealias Jobík = Jobik
 
+private val spaces = Regex("\\s+")
 /**
  * Returns `true` if a word is orthographically and phonotactically valid as specified by `validator`, and `false` otherwise.
  * Multiple words can be separated by whitespace, and this method will only return `true` if all words in `sequence` are valid.
@@ -15,7 +16,7 @@ internal inline fun isValidSequence(sequence: String, validator: (String) -> Boo
     if (sequence.isBlank()) return false
 
     // Handle a multiple-word sequence
-    val wordArray = sequence.split(Regex("\\s+"))
+    val wordArray = sequence.split(spaces)
     if (wordArray.isEmpty()) return false
 
     for (i in wordArray)
