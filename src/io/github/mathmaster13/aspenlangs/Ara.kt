@@ -11,12 +11,10 @@ object Ara {
      * A sequence containing punctuation marks, numbers, or other non-letter characters returns `false`,
      * as well as an empty sequence or one containing only whitespace.
      *
-     * Specifically, a word must be C(C)VC(C)V(CC), with the valid consonant and vowel sequences in each position
-     * defined in the [jobík documentation](https://aspenlangs.neocities.org/jobdoc.html).
-     * You can also obtain a `Regex` of the phonotactics from the {@link phonotactics} property.
+     * Specifically, a word must be V...(C(C)V...)... [where ... indicates that the previous pattern can be repeated infinitely), and repeated consonants are not allowed.
      *
-     * There is a closed class of words that do not follow these phonotactics—namely, the particles *i* and *.k*—that
-     * are considered valid due to their use in the language. All other words must adhere to the above rules.
+     * There is an exception to these rules—the prefix *n#n* can appear at the beginning of a word, which violates the rule that a word must start with a vowel.
+     * Words starting with *n#n* are considered valid due to their use in the language. All other words must adhere to the above rules.
      */
     // KDoc copied from SumaSisi
     @JvmStatic
